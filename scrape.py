@@ -23,7 +23,9 @@ def showTickets(tickets):
             train_entrance = i.find("div", class_='entrance')
             departure_time = train_departure.find("span", class_='titleModal')
             entrance_time = train_entrance.find("span", class_='titleModal')
+            price = i.find("div", class_='price titleModal')
             print(train_type.text + ' ' + departure_time.text + ' ' + entrance_time.text)
+            print(price.text + '\n')
         print("####################################")
 
 
@@ -55,17 +57,17 @@ while True:
     capa = DesiredCapabilities.CHROME
     capa["pageLoadStrategy"] = "none"
     options = webdriver.ChromeOptions()
-    options.headless = True
+    options.headless = False
     driver = webdriver.Chrome(service=Service("c:/webdriver/chromedriver.exe"), desired_capabilities=capa,
                               options=options)
-    wait = WebDriverWait(driver, 10)
+    wait = WebDriverWait(driver, 20)
     driver.get(url)
 
     try:
-        wait.until(ec.text_to_be_present_in_element((By.CLASS_NAME, "element-item"), text_="ستاره"))
+        wait.until(ec.text_to_be_present_in_element((By.CLASS_NAME, "train-type"), text_="ه"))
         driver.execute_script("window.stop();")
         soup = BeautifulSoup(driver.page_source, "html.parser")
-        trains = soup.find_all("div", class_="panel panel-default tkpnl element-item")
+        trains = soup.find_all("div", class_="panel panel-default tkpnl element-item trainPanel")
         showTickets(trains)
         driver.close()
 
