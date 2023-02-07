@@ -57,7 +57,7 @@ while True:
     capa = DesiredCapabilities.CHROME
     capa["pageLoadStrategy"] = "none"
     options = webdriver.ChromeOptions()
-    options.headless = False
+    options.headless = True
     driver = webdriver.Chrome(service=Service("c:/webdriver/chromedriver.exe"), desired_capabilities=capa,
                               options=options)
     wait = WebDriverWait(driver, 20)
