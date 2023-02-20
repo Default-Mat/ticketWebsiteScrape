@@ -4,8 +4,8 @@ from selenium import webdriver
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as ec
-from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+from selenium.webdriver.chrome.service import Service
 
 
 def showTickets(tickets):
@@ -58,7 +58,7 @@ while True:
     capa["pageLoadStrategy"] = "none"
     options = webdriver.ChromeOptions()
     options.headless = True
-    driver = webdriver.Chrome(service=Service("c:/webdriver/chromedriver.exe"), desired_capabilities=capa,
+    driver = webdriver.Chrome(desired_capabilities=capa,
                               options=options)
     wait = WebDriverWait(driver, 20)
     driver.get(url)
@@ -70,7 +70,6 @@ while True:
         trains = soup.find_all("div", class_="panel panel-default tkpnl element-item trainPanel")
         showTickets(trains)
         driver.close()
-
     except:
         print("\nNo tickets available at the moment")
         driver.close()
