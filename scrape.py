@@ -1,4 +1,6 @@
 import os
+import time
+
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.support.wait import WebDriverWait
@@ -8,6 +10,7 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 import smtplib
 import ssl
+import time
 
 
 def showTickets(tickets):
@@ -62,14 +65,11 @@ else:
 date = input("enter the date in yyyy-mm-dd format: ")
 
 url = "https://ghasedak24.com/search/train/" + beg + "-" + dest + "/" + date + "/1/0/0/1/"
-print("Please wait.......")
+print("Scraping initiated.......")
 
 sender = 'matin.arno4646@outlook.com'
 password = '34129093428198matin'
 receiver = 'matin.geralt6565@gmail.com'
-message = f"""From: From Person <matin.arno4646@outlook.com>
-To: To Person <matin.geralt6565@gmail.com>
-Subject: SMTP e-mail test\n\n"""
 
 while True:
     capa = DesiredCapabilities.CHROME
@@ -79,6 +79,10 @@ while True:
     driver = webdriver.Chrome(desired_capabilities=capa, options=options)
     wait = WebDriverWait(driver, 30)
     driver.get(url)
+
+    message = f"""From: From Person <matin.arno4646@outlook.com>
+To: To Person <matin.geralt6565@gmail.com>
+Subject: SMTP e-mail test\n\n"""
 
     try:
         wait.until(ec.text_to_be_present_in_element((By.CLASS_NAME, "train-type"), text_="ه"))
@@ -95,9 +99,8 @@ while True:
 ####################################"""
             sendMail(sender, password, receiver, message)
 
-        break
-
     except:
         print("\nNo tickets available at the moment")
         driver.close()
-        break
+
+    time.sleep(3600)
