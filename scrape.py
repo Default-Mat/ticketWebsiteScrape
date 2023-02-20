@@ -15,17 +15,18 @@ def showTickets(tickets):
         return "no tickets"
 
     else:
-        string = f"""####################################
-There are {str(len(tickets))} tickets available\n"""
+        string = f"""There are {str(len(tickets))} tickets available
+####################################\n\n"""
 
-        # for i in tickets:
-        #     train_type = i.find("span", class_='train-type')
-        #     train_departure = i.find("div", class_='departure')
-        #     train_entrance = i.find("div", class_='entrance')
-        #     departure_time = train_departure.find("span", class_='titleModal')
-        #     entrance_time = train_entrance.find("span", class_='titleModal')
-        #     price = i.find("div", class_='price titleModal')
-        #     string += f"{train_type.text} {departure_time.text} {entrance_time.text}\n{price.text}\n"
+        for i in tickets:
+            train_type = i.find("span", class_='train-type')
+            train_departure = i.find("div", class_='departure')
+            train_entrance = i.find("div", class_='entrance')
+            departure_time = train_departure.find("span", class_='titleModal')
+            entrance_time = train_entrance.find("span", class_='titleModal')
+            price = i.find("div", class_='price titleModal')
+            string += f"{train_type.text} {departure_time.text}" \
+                      f" {entrance_time.text}\n{price.text}\n\n"
     return string
 
 
@@ -36,7 +37,7 @@ def sendMail(Sender, Password, Receiver, Message):
     smtp.starttls(context=context)
     smtp.ehlo()
     smtp.login(Sender, Password)
-    smtp.sendmail(Sender, Receiver, Message)
+    smtp.sendmail(Sender, Receiver, Message.encode("utf-8"))
     print('email sent!')
 
 
@@ -68,9 +69,7 @@ password = '34129093428198matin'
 receiver = 'matin.geralt6565@gmail.com'
 message = f"""From: From Person <matin.arno4646@outlook.com>
 To: To Person <matin.geralt6565@gmail.com>
-Subject: SMTP e-mail test
-
-This is a test e-mail message.\n"""
+Subject: SMTP e-mail test\n\n"""
 
 while True:
     capa = DesiredCapabilities.CHROME
@@ -92,7 +91,8 @@ while True:
             print("There are 0 tickets available")
 
         else:
-            message += f"{foundTickets}"
+            message += f"""{foundTickets}
+####################################"""
             sendMail(sender, password, receiver, message)
 
         break
