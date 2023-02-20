@@ -1,6 +1,4 @@
 import os
-import time
-
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.support.wait import WebDriverWait
