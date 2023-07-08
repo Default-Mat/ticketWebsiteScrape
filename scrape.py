@@ -4,12 +4,30 @@ from selenium import webdriver
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as ec
-from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.common import TimeoutException
 import smtplib
 import ssl
 import time
+
+
+# def create_driver():
+#     capa = DesiredCapabilities.CHROME
+#     capa["pageLoadStrategy"] = "none"
+#     op = webdriver.ChromeOptions()
+#     # op.add_argument('--headless=new')
+#     op.add_experimental_option("detach", True)
+#     driver = webdriver.Chrome(desired_capabilities=capa, options=op)
+#     return driver
+#
+#
+# def retry_connection(driver):
+#     driver.close()
+#     driver = create_driver()
+#     print('Connection error acquired')
+#     time.sleep(3.0)
+#     print('Retrying.........')
+#     return driver
 
 
 def sendMail(Sender, Password, Receiver, Message):
@@ -44,7 +62,7 @@ def chooseOption():
 
     date = input("enter the date in yyyy-mm-dd format: ")
 
-    options = {"beg" : beg, "dest" : dest, "date" : date}
+    options = {"beg": beg, "dest": dest, "date": date}
     return options
 
 
@@ -133,8 +151,10 @@ def main():
         driver = webdriver.Chrome(desired_capabilities=capa, options=op)
 
         message = f"""From: From Person <matin.arno4646@outlook.com>
-    To: To Person <matin.geralt6565@gmail.com>
-    Subject: SMTP e-mail test\n\n"""
+To: To Person <matin.geralt6565@gmail.com>
+Subject: SMTP e-mail test\n\n"""
+
+        working_sites = 0
 
         try:
             ghasedak_foundTickets = ghasedak_sc(options, driver)
@@ -142,10 +162,10 @@ def main():
             if ghasedak_foundTickets == "no tickets":
                 print("There are 0 tickets available in ghasedak24")
             else:
-                message += f"""{ghasedak_foundTickets}
-                        ####################################"""
+                message += f"""{ghasedak_foundTickets}"""
                 # sendMail(sender, password, receiver, message)
                 print(ghasedak_foundTickets)
+            working_sites += 1
 
         except TimeoutException:
             print("\nGhasedak24 is not available at the moment")
@@ -156,13 +176,17 @@ def main():
             if respina_foundTickets == "no tickets":
                 print("There are 0 tickets available in respina24")
             else:
+                message += f"""{respina_foundTickets}"""
                 print(respina_foundTickets)
-
-            driver.close()
+            working_sites += 1
 
         except TimeoutException:
             print("\nRespina24 is not available at the moment")
 
+        driver.close()
+        if working_sites > 0:
+            print('sending details to email.......')
+            sendMail(sender, password, receiver, message)
         break
 
 
