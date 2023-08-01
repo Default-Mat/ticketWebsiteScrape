@@ -5,10 +5,11 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.service import Service
 from selenium.common import TimeoutException
 import smtplib
 import ssl
-import time
 
 
 # def create_driver():
@@ -138,17 +139,17 @@ def main():
     options = chooseOption()
     print("Scraping initiated.......\n")
 
-    sender = 'matin.arno4646@outlook.com'
-    password = '34129093428198matin'
-    receiver = 'matin.geralt6565@gmail.com'
+    sender = 'example@outlook.com'
+    password = "example@outlook.com's password"
+    receiver = 'example@gmail.com'
 
     while True:
         capa = DesiredCapabilities.CHROME
         capa["pageLoadStrategy"] = "none"
         op = webdriver.ChromeOptions()
-        # op.add_argument('--headless=new')
+        op.add_argument('--headless=new')
         op.add_experimental_option("detach", True)
-        driver = webdriver.Chrome(desired_capabilities=capa, options=op)
+        driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), desired_capabilities=capa, options=op)
 
         message = f"""From: From Person <matin.arno4646@outlook.com>
 To: To Person <matin.geralt6565@gmail.com>
@@ -163,7 +164,6 @@ Subject: SMTP e-mail test\n\n"""
                 print("There are 0 tickets available in ghasedak24")
             else:
                 message += f"""{ghasedak_foundTickets}"""
-                # sendMail(sender, password, receiver, message)
                 print(ghasedak_foundTickets)
             working_sites += 1
 
