@@ -151,8 +151,8 @@ def main():
         op.add_experimental_option("detach", True)
         driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), desired_capabilities=capa, options=op)
 
-        message = f"""From: From Person <matin.arno4646@outlook.com>
-To: To Person <matin.geralt6565@gmail.com>
+        message = f"""From: From Person <example@outlook.com>
+To: To Person <example@gmail.com>
 Subject: SMTP e-mail test\n\n"""
 
         working_sites = 0
